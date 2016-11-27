@@ -5,8 +5,10 @@ import { OperationRouter } from './operation-router';
 import { UserRouter } from './user-router';
 
 export let init = function (api: express.Application) {
-    api.all('*', function (req, res, next) {
+    api.use(function (req, res, next) {
+        console.info('Info: Api(' + req.url + ') has be called. Method:' + req.method + '. Body:' + JSON.stringify(req.body));
         res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Content-Type");
         next();
     });
     new ApplicationRouter(api).config();

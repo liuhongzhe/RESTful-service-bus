@@ -10,6 +10,9 @@ export let login = function (req: express.Request, res: express.Response) {
             password: password
         }
     }).then(r => {
+        if (r) {
+            r.password = null;
+        }
         res.send(r);
     });
 }

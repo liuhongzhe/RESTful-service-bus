@@ -1,5 +1,5 @@
 import * as express from 'express';
-import * as BodyParser from 'body-parser';
+import * as bodyParser from 'body-parser';
 import { ApiConfig } from './api.config';
 import * as routerIndex from './router/router.index';
 import { RsbStorage } from './storage/rsb-storage';
@@ -8,8 +8,8 @@ import * as uuid from 'node-uuid';
 
 let api = express();
 console.info('Info: Express init ok.');
-api.use(BodyParser.json());
-api.use(BodyParser.urlencoded({ extended: false }));
+api.use(bodyParser.json());
+api.use(bodyParser.urlencoded({ extended: false }));
 console.info('Info: BodyParser init ok.');
 routerIndex.init(api);
 console.info('Info: Router init ok.');

@@ -42,26 +42,29 @@ gulp.task('copy:packages', ['clean'], function () {
         }).pipe(gulp.dest('build/lib'));
 });
 
-gulp.task('copy:systemjs.config', ['clean'], function () {
+gulp.task('copy:systemjs.config', function () {
     return gulp.src('src/systemjs.config.js').pipe(gulp.dest('build'));
 });
 
-gulp.task('copy:template', ['clean'], function () {
+gulp.task('copy:template', function () {
     return gulp.src('src/**/*.html')
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('copy:assets', ['clean'], function () {
-    return gulp.src('src/assets/**/*.*')
-        .pipe(gulp.dest('build'));
+gulp.task('copy:assets', function () {
+    return gulp.src('src/assets/**/*.*', {
+        base: 'src'
+    }).pipe(gulp.dest('build'));
 });
 
 gulp.task('build', function () {
-    rs(['tsc', 'tsc:w']);
+    rs(['tsc', 'copy:template', 'copy:assets']);
 });
 
 gulp.task('rebuild', ['clean'], function () {
     rs(['tsc', 'copy:packages', 'copy:systemjs.config', 'copy:template', 'copy:assets']);
 })
+
+gulp.task('debug', ['rebuild', 'tsc:w']);
 
 gulp.task('default', ['rebuild']);
