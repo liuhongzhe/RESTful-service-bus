@@ -1,12 +1,12 @@
 import * as express from 'express';
 import { ApiConfig } from './api.config';
-import { Router } from './router/router';
+import * as routerIndex from './router/router.index';
 import { RsbStorage } from './storage/rsb-storage';
 import { Controller } from './controller/controller';
 
 let api = express();
 console.info('Info: Express init ok.');
-Router.init(api);
+routerIndex.init(api);
 console.info('Info: Router init ok.');
 let rsbStorage = new RsbStorage();
 rsbStorage.init(true).then(r => {
