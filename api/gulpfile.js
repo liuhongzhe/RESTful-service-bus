@@ -25,6 +25,6 @@ gulp.task('tsc:w', ['tsc'], function () {
     return gulp.watch([paths.ts.src], ['tsc']);
 });
 
-gulp.task('build', ['clean', 'tsc', 'tsc:w']);
+gulp.task('build', ['clean', 'tsc']);
 
 gulp.task('default', ['build']);

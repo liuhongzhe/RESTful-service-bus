@@ -1,5 +1,5 @@
 export class ApiConfig {
-    static port: number = 3001;
+    static port: number = 7001;
     static dbDialect: string = 'mysql';
     static dbHost: string = '119.10.67.224';
     static dbPort: number = 3306;
