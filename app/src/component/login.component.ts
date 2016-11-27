@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import { AppCache } from '../app.cache';
 
 @Component({
     moduleId: module.id,
@@ -13,7 +14,7 @@ export class LoginComponent {
     password: string;
     loading: boolean;
     loginFaild: boolean;
-    constructor(private router: Router, private userService: UserService) { }
+    constructor(private router: Router, private userService: UserService, private appCache: AppCache) { }
     passwordKeyUp(e) {
         if (e.which === 13) {
             this.login();
@@ -27,7 +28,8 @@ export class LoginComponent {
                 this.loginFaild = true;
             }
             else {
-
+                this.appCache.loginUser = r;
+                this.router.navigate(['desktop']);
             }
             this.loading = false;
         });

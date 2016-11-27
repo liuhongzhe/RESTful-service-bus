@@ -37,7 +37,9 @@ gulp.task('copy:packages', ['clean'], function () {
         'node_modules/reflect-metadata/Reflect.js',
         'node_modules/rxjs/**/*',
         'node_modules/systemjs/dist/**/*',
-        'node_modules/zone.js/dist/**/*'], {
+        'node_modules/zone.js/dist/**/*',
+        'node_modules/moment/min/**/*',
+        'node_modules/ng2-bootstrap/bundles/**/*'], {
             base: 'node_modules'
         }).pipe(gulp.dest('build/lib'));
 });

@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as controller from '../controller/controller';
 import { ApplicationRouter } from './application-router';
 import { ServiceRouter } from './service-router';
 import { OperationRouter } from './operation-router';
@@ -11,6 +12,10 @@ export let init = function (api: express.Application) {
         res.header("Access-Control-Allow-Headers", "Content-Type");
         next();
     });
+    api.get('/:model', controller.queryByPagination);
+    api.post('/:model', controller.add);
+    api.put('/:model/:pk', controller.update);
+    api.delete('/:model/:pk', controller.deleteByPk);
     new ApplicationRouter(api).config();
     new ServiceRouter(api).config();
     new OperationRouter(api).config();
