@@ -39,7 +39,8 @@ gulp.task('copy:packages', ['clean'], function () {
         'node_modules/systemjs/dist/**/*',
         'node_modules/zone.js/dist/**/*',
         'node_modules/moment/min/**/*',
-        'node_modules/ng2-bootstrap/bundles/**/*'], {
+        'node_modules/ng2-bootstrap/bundles/**/*',
+        'node_modules/node-uuid/uuid.js'], {
             base: 'node_modules'
         }).pipe(gulp.dest('build/lib'));
 });

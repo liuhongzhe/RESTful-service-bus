@@ -2,13 +2,35 @@ import * as express from 'express';
 import * as Sequelize from 'sequelize';
 import { RsbStorage } from '../storage/rsb-storage';
 import { Pagination } from '../entity/pagination';
-import { QueryResult } from '../entity/query-result';
 
 export abstract class Controller {
     static rsbStorage: RsbStorage;
+
+    protected queryByPagination(req: express.Request, res: express.Response, model: Sequelize.Model<{}, {}>, findOptions: Sequelize.FindOptions = null) {
+        if (!findOptions) {
+            findOptions = {};
+        }
+        var pagination: Pagination = {};
+        var sizeString = req.param('size');
+        if (sizeString && sizeString !== '') {
+            pagination.size = Number.parseInt(sizeString);
+            findOptions.limit = pagination.size;
+            var indexString = req.param('index');
+            if (indexString && indexString !== '') {
+                pagination.index = Number.parseInt(indexString);
+                findOptions.offset = pagination.size * (pagination.index - 1);
+            }
+        }
+        model.findAndCountAll(findOptions).then(r => {
+            console.log(r);
+            res.send(r);
+        }).catch(e => {
+            throw 'QueryByPagination error. Error:' + e;
+        });
+    }
 }
 
-let getModel = function(req: express.Request) {
+let getModel = function (req: express.Request) {
     var modelName = req.param('model');
     if (Controller.rsbStorage.sequelize.isDefined(modelName)) {
         return Controller.rsbStorage.sequelize.model(modelName);
@@ -18,21 +40,18 @@ let getModel = function(req: express.Request) {
     }
 }
 
-export let queryByPagination = function(req: express.Request, res: express.Response) {
-    var pagination: Pagination = {
-        index: Number.parseInt(req.query.index),
-        size: Number.parseInt(req.query.size)
-    };
+export let queryByPk = function (req: express.Request, res: express.Response) {
+    var pk = req.param('pk');
     var model = getModel(req);
-    model.findAll({
-        'limit': pagination.size,
-        'offset': pagination.size * (pagination.index - 1)
-    }).then(r => {
+    model.findById(pk).then(r => {
+        console.log(r);
         res.send(r);
+    }).catch(e => {
+        throw 'QueryByPk error. Error:' + e;
     });
 }
 
-export let add = function(req: express.Request, res: express.Response) {
+export let add = function (req: express.Request, res: express.Response) {
     var model = getModel(req);
     model.create(req.body).then(r => {
         res.send();
@@ -41,7 +60,7 @@ export let add = function(req: express.Request, res: express.Response) {
     });
 }
 
-export let update = function(req: express.Request, res: express.Response) {
+export let update = function (req: express.Request, res: express.Response) {
     var pk = req.param('pk');
     var model = getModel(req);
     model.findById(pk).then(r => {
@@ -55,7 +74,7 @@ export let update = function(req: express.Request, res: express.Response) {
     });
 }
 
-export let deleteByPk = function(req: express.Request, res: express.Response) {
+export let deleteByPk = function (req: express.Request, res: express.Response) {
     var pk = req.param('pk');
     var model = getModel(req);
     model.findById(pk).then(r => {

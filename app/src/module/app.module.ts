@@ -8,7 +8,6 @@ import { AppComponent } from '../component/app.component';
 import { LoginComponent } from '../component/login.component';
 import { DesktopHeaderComponent } from '../component/desktop-header.component';
 import { DesktopComponent } from '../component/desktop.component';
-import { UserService } from '../service/user.service';
 import { AppCache } from '../app.cache';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { AppCache } from '../app.cache';
         DesktopComponent
     ],
     providers: [
-        UserService,
         AppCache
     ],
     bootstrap: [AppComponent]

@@ -1,0 +1,58 @@
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form #adminForm="ngForm" (ngSubmit)="onSubmit()" *ngIf="entity">
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">管理员明细</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" class="form-control" required minlength="5" maxlength="20" [(ngModel)]="entity.username" name="username"
+                            #username="ngModel" />
+                        <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
+                            必填，5-20字符。
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="text" class="form-control" required minlength="5" maxlength="50" [(ngModel)]="entity.password" name="password"
+                            #password="ngModel" />
+                        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                            必填，5-50字符。
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">名字</label>
+                        <input type="text" class="form-control" required minlength="2" maxlength="50" [(ngModel)]="entity.firstName" name="firstName"
+                            #firstName="ngModel" />
+                        <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
+                            必填，2-20字符。
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">姓氏</label>
+                        <input type="text" class="form-control" required minlength="2" maxlength="50" [(ngModel)]="entity.lastName" name="lastName"
+                            #lastName="ngModel" />
+                        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+                            必填，2-20字符。
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">联系电话</label>
+                        <input type="text" class="form-control" required minlength="2" maxlength="50" [(ngModel)]="entity.phone" name="phone" #phone="ngModel"
+                        />
+                        <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger">
+                            必填，2-20字符。
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" [disabled]="!adminForm.form.valid">确定</button>
+                    <button class="btn btn-primary" type="button" (click)="cancel()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

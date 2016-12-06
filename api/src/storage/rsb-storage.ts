@@ -1,6 +1,9 @@
 import * as Sequelize from 'sequelize';
 import * as Promise from 'bluebird';
 import { ApiConfig } from '../api.config';
+import { AdminModel } from './model/admin-model';
+import { AdminInstance } from './instance/admin-instance';
+import { AdminAttribute } from './attribute/admin-attribute';
 import { ApplicationModel } from './model/application-model';
 import { ApplicationInstance } from './instance/application-instance';
 import { ApplicationAttribute } from './attribute/application-attribute';
@@ -16,6 +19,7 @@ import { UserAttribute } from './attribute/user-attribute';
 
 export class RsbStorage {
     sequelize: Sequelize.Sequelize;
+    adminModel: AdminModel;
     applicationModel: ApplicationModel;
     serviceModel: ServiceModel;
     operationModel: OperationModel;
@@ -26,6 +30,32 @@ export class RsbStorage {
             dialect: ApiConfig.dbDialect,
             host: ApiConfig.dbHost,
             port: ApiConfig.dbPort
+        });
+        this.adminModel = this.sequelize.define<AdminInstance, AdminAttribute>('admin', {
+            guid: {
+                type: Sequelize.UUID,
+                primaryKey: true
+            },
+            username: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            },
+            password: {
+                type: Sequelize.STRING(50),
+                allowNull: false
+            },
+            firstName: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            },
+            lastName: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            },
+            phone: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            }
         });
         this.applicationModel = this.sequelize.define<ApplicationInstance, ApplicationAttribute>('application', {
             guid: {
@@ -65,6 +95,7 @@ export class RsbStorage {
                 type: Sequelize.STRING(500)
             }
         });
+        this.serviceModel.belongsTo(this.applicationModel);
         this.operationModel = this.sequelize.define<OperationInstance, OperationAttribute>('operation', {
             guid: {
                 type: Sequelize.UUID,
@@ -86,20 +117,29 @@ export class RsbStorage {
                 type: Sequelize.STRING(500)
             }
         });
+        this.operationModel.belongsTo(this.serviceModel);
         this.userModel = this.sequelize.define<UserInstance, UserAttribute>('user', {
             guid: {
                 type: Sequelize.UUID,
                 primaryKey: true
             },
             username: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.STRING(20),
                 allowNull: false
             },
             password: {
                 type: Sequelize.STRING(50),
                 allowNull: false
             },
-            name: {
+            firstName: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            },
+            lastName: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            },
+            phone: {
                 type: Sequelize.STRING(20),
                 allowNull: false
             }

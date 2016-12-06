@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppCache } from '../app.cache';
-import { User } from '../model/user';
+import { LoginType } from '../entity/login-type';
+import { Admin } from '../model/admin';
 
 @Component({
     selector: 'desktop-header',
@@ -9,10 +10,13 @@ import { User } from '../model/user';
     styleUrls: ['../assets/css/desktop-header.css']
 })
 export class DesktopHeaderComponent {
-    loginUser: User;
+    loginAdmin: Admin;
 
     constructor(private route: ActivatedRoute, private router: Router, private appCache: AppCache) {
-        this.loginUser = appCache.loginUser;
+        this.loginAdmin = appCache.loginAdmin;
+        if (!this.loginAdmin) {
+            this.router.navigate(['login']);
+        }
     }
 
     protected showApplications() {
@@ -20,7 +24,15 @@ export class DesktopHeaderComponent {
     }
 
     protected logout() {
-        this.appCache.loginUser = null;
-        this.router.navigate(['login']);
+        switch (this.appCache.loginType) {
+            case LoginType.User:
+                this.appCache.loginUser = null;
+                this.router.navigate(['login', { loginType: LoginType.User }]);
+                break;
+            case LoginType.Admin:
+                this.appCache.loginAdmin = null;
+                this.router.navigate(['login', { loginType: LoginType.Admin }]);
+                break;
+        }
     }
 }

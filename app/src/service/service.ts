@@ -1,5 +1,6 @@
 import { Headers, Http, Request, RequestMethod } from '@angular/http';
 import { AppConfig } from '../app.config';
+import { Model } from '../model/model';
 import { User } from '../model/user';
 import { Pagination } from '../entity/pagination';
 import { QueryResult } from '../entity/query-result';
@@ -35,33 +36,30 @@ export abstract class Service {
     }
 }
 
-export abstract class TService<T> extends Service {
+export abstract class TService<T extends Model> extends Service {
     constructor(protected http: Http, protected modelName: string) {
         super(http);
     }
 
-    queryByPagination(pagination: Pagination): Promise<QueryResult<T>> {
-        return new Promise<QueryResult<T>>(resolve => {
-            var url = this.modelName + '?index=' + pagination.index + '&size=' + pagination.size;
-            super.request<QueryResult<T>>(url, RequestMethod.Get).then(r => {
-                console.debug('Debug: QueryByPagination ok. Return:' + JSON.stringify(r));
-                resolve(r);
-            }).catch(e => {
-                console.error('Error: ' + e);
-            });
-        });
+    abstract queryByTextAndPagination(text: string, pagination: Pagination): Promise<QueryResult<T>>;
+
+    queryByPk(pk: string) {
+        var url = this.modelName + '/' + pk;
+        return super.request<T>(url, RequestMethod.Get);
+    }
+
+    add(model: T) {
+        var url = this.modelName;
+        return super.request(url, RequestMethod.Post, model);
+    }
+
+    update(model: T) {
+        var url = this.modelName + '/' + model.guid;
+        return super.request(url, RequestMethod.Put, model);
     }
 
     deleteByPk(pk: string) {
-        return new Promise<boolean>(resolve => {
-            var url = AppConfig.serviceUrlRoot + '/' + this.modelName;
-            super.request(url, RequestMethod.Post).then(r => {
-                console.debug('Debug: DeleteByPk ok. Return:' + JSON.stringify(r));
-                resolve(true);
-            }).catch(e => {
-                console.error('Error: ' + e);
-                resolve(false);
-            });
-        });
+        var url = this.modelName + '/' + pk;
+        return super.request(url, RequestMethod.Delete);
     }
 }

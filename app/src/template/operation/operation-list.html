@@ -1,0 +1,37 @@
+<text-search (search)="onSearch($event)"></text-search>
+<table class="table table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>
+                <a href="javascript:void(0)" (click)="ai.show(null)"><span class="glyphicon glyphicon-plus text-primary"></span></a>
+            </th>
+            <th>
+                名称
+            </th>
+            <th>
+                编号
+            </th>
+            <th>
+                所属服务
+            </th>
+            <th>
+                描述
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let entity of entities">
+            <td>
+                <a href="javascript:void(0)" (click)="ai.show(entity.guid)"><span class="glyphicon glyphicon-pencil text-success"></span></a>
+                <a href="javascript:void(0)" (click)="remove(entity.guid)"><span class="glyphicon glyphicon-remove text-danger"></span></a>
+            </td>
+            <td>{{entity.name}}</td>
+            <td>{{entity.no}}</td>
+            <td>{{entity.service.application.name+' - '+entity.service.name}}</td>
+            <td>{{entity.description}}</td>
+        </tr>
+    </tbody>
+</table>
+<pagination class="pagination-sm" [totalItems]="total" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" [maxSize]="pageNumberSize"
+    [boundaryLinks]="true" [rotate]="false" (pageChanged)="query($event.page)"></pagination>
+<operation-detail #ai (saveCompleted)="onSaveCompleted($event)"></operation-detail>

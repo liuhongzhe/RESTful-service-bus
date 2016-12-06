@@ -1,6 +1,6 @@
-import { Entity } from './entity';
+import { Model } from './model';
 
-export interface Application extends Entity {
+export interface Application extends Model {
     no: string;
     name: string;
     description?: string;

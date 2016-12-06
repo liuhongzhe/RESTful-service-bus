@@ -24,7 +24,8 @@
             'rxjs': 'lib/rxjs',
             'angular-in-memory-web-api': 'lib/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'moment': 'lib/moment/min/moment.min.js',
-            'ng2-bootstrap/ng2-bootstrap': 'lib/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js'
+            'ng2-bootstrap/ng2-bootstrap': 'lib/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js',
+            'node-uuid': 'lib/node-uuid/uuid.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

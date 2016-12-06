@@ -1,7 +1,5 @@
-import { Entity } from './entity';
+import { Admin } from './admin';
 
-export interface User extends Entity {
-    username: string;
-    password: string;
-    name: string;
+export interface User extends Admin {
+
 }

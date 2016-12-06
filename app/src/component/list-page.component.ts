@@ -1,16 +1,18 @@
-import { ViewChild } from '@angular/core';
-import { Entity } from '../model/entity';
+import { OnInit } from '@angular/core';
+import { Model } from '../model/model';
 import { TService } from '../service/service';
-import { Pagination } from '../entity/pagination';
 
-export abstract class ListPageComponent<TEntity extends Entity> {
+export abstract class ListPageComponent<TEntity extends Model> implements OnInit {
     protected entities: TEntity[];
     protected pageIndex: number = 1;
     protected pageSize: number = 10;
+    protected searchText: string;
     protected pageNumberSize: number = 5;
     protected total: number = 0;
 
-    constructor(private modelService: TService<TEntity>) {
+    constructor(private modelService: TService<TEntity>) { }
+
+    ngOnInit() {
         this.query();
     }
 
@@ -22,10 +24,17 @@ export abstract class ListPageComponent<TEntity extends Entity> {
         if (pageIndex !== null) {
             pagination.index = pageIndex;
         }
-        this.modelService.queryByPagination(pagination).then(result => {
+        this.modelService.queryByTextAndPagination(this.searchText, {
+            index: this.pageIndex,
+            size: this.pageSize
+        }).then(result => {
             this.total = result.total;
-            this.entities = result.data;
+            this.entities = result.rows;
         });
+    }
+
+    protected onSaveCompleted(entity: TEntity) {
+        this.query();
     }
 
     protected remove(guid) {
