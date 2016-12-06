@@ -13,7 +13,7 @@ export abstract class DetailPageComponent<TEntity extends Model> implements OnIn
     private detailSaveCompleted: EventEmitter<TEntity>;
 
     protected beforeGetEntity(guid: string): Promise<void> {
-        return new Promise<void>((r) => {
+        return new Promise<void>(r => {
             r();
         });
     };

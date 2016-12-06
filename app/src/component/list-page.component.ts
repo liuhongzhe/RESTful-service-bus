@@ -33,6 +33,11 @@ export abstract class ListPageComponent<TEntity extends Model> implements OnInit
         });
     }
 
+    protected onSearch(text: string) {
+        this.searchText = text;
+        this.query();
+    }
+
     protected onSaveCompleted(entity: TEntity) {
         this.query();
     }

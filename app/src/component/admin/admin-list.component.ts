@@ -13,13 +13,4 @@ export class AdminListComponent extends ListPageComponent<Admin> {
     constructor(private adminService: AdminService) {
         super(adminService);
     }
-
-    getQueryFunction(): Function {
-        return this.adminService.queryByTextAndPagination;
-    }
-
-    onSearch(text: string) {
-        this.searchText = text;
-        this.query();
-    }
 }

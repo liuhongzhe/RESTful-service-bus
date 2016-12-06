@@ -12,8 +12,6 @@ import { ApplicationService } from '../../service/application.service';
     providers: [ApplicationService]
 })
 export class ApplicationDetailComponent extends DetailPageComponent<Application> {
-    protected parents: Application[];
-
     @Input('applicationForm') private form: NgForm;
     @ViewChild('lgModal') private modal;
     @Output() saveCompleted: EventEmitter<Application> = new EventEmitter<Application>();
@@ -21,12 +19,6 @@ export class ApplicationDetailComponent extends DetailPageComponent<Application>
     constructor(private applicationService: ApplicationService) {
         super(applicationService);
     }
-
-    protected beforeGetEntity(guid: string): Promise<void> {
-        return new Promise<void>(r => {
-            r();
-        });
-    };
 
     protected getModal(): ModalDirective {
         return this.modal;

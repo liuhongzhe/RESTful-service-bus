@@ -13,13 +13,4 @@ export class OperationListComponent extends ListPageComponent<Operation> {
     constructor(private operationService: OperationService) {
         super(operationService);
     }
-
-    getQueryFunction(): Function {
-        return this.operationService.queryByTextAndPagination;
-    }
-
-    onSearch(text: string) {
-        this.searchText = text;
-        this.query();
-    }
 }

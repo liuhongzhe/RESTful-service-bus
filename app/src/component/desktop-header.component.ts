@@ -10,12 +10,16 @@ import { Admin } from '../model/admin';
     styleUrls: ['../assets/css/desktop-header.css']
 })
 export class DesktopHeaderComponent {
-    loginAdmin: Admin;
+    login: Admin;
 
     constructor(private route: ActivatedRoute, private router: Router, private appCache: AppCache) {
-        this.loginAdmin = appCache.loginAdmin;
-        if (!this.loginAdmin) {
-            this.router.navigate(['login']);
+        switch (appCache.loginType) {
+            case LoginType.User:
+                this.login = appCache.loginUser;
+                break;
+            case LoginType.Admin:
+                this.login = appCache.loginAdmin;
+                break;
         }
     }
 

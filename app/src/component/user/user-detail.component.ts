@@ -20,12 +20,6 @@ export class UserDetailComponent extends DetailPageComponent<User> {
         super(userService);
     }
 
-    protected beforeGetEntity(guid: string): Promise<void> {
-        return new Promise<void>(r => {
-            r();
-        });
-    };
-
     protected getModal(): ModalDirective {
         return this.modal;
     }

@@ -13,13 +13,4 @@ export class ApplicationListComponent extends ListPageComponent<Application> {
     constructor(private applicationService: ApplicationService) {
         super(applicationService);
     }
-
-    getQueryFunction(): Function {
-        return this.applicationService.queryByTextAndPagination;
-    }
-
-    onSearch(text: string) {
-        this.searchText = text;
-        this.query();
-    }
 }

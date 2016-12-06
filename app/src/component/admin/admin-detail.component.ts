@@ -20,12 +20,6 @@ export class AdminDetailComponent extends DetailPageComponent<Admin> {
         super(adminService);
     }
 
-    protected beforeGetEntity(guid: string): Promise<void> {
-        return new Promise<void>(r => {
-            r();
-        });
-    };
-
     protected getModal(): ModalDirective {
         return this.modal;
     }

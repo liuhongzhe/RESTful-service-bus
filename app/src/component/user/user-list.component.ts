@@ -14,10 +14,6 @@ export class UserListComponent extends ListPageComponent<User> {
         super(userService);
     }
 
-    getQueryFunction(): Function {
-        return this.userService.queryByTextAndPagination;
-    }
-
     onSearch(text: string) {
         this.searchText = text;
         this.query();

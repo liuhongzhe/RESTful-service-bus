@@ -13,13 +13,4 @@ export class ServiceListComponent extends ListPageComponent<Service> {
     constructor(private serviceService: ServiceService) {
         super(serviceService);
     }
-
-    getQueryFunction(): Function {
-        return this.serviceService.queryByTextAndPagination;
-    }
-
-    onSearch(text: string) {
-        this.searchText = text;
-        this.query();
-    }
 }
