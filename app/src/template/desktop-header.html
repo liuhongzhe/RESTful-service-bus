@@ -5,11 +5,11 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li [routerLinkActive]="['active']"><a routerLink="application">应用管理</a></li>
-                <li [routerLinkActive]="['active']"><a routerLink="service">服务管理</a></li>
-                <li [routerLinkActive]="['active']"><a routerLink="operation">操作管理</a></li>
-                <li [routerLinkActive]="['active']"><a routerLink="admin">管理员管理</a></li>
-                <li [routerLinkActive]="['active']"><a routerLink="user">用户管理</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="this.appCache.loginAdmin"><a routerLink="application">应用管理</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="this.appCache.loginAdmin"><a routerLink="service">服务管理</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="this.appCache.loginAdmin"><a routerLink="operation">操作管理</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="this.appCache.loginAdmin"><a routerLink="admin">管理员管理</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="this.appCache.loginAdmin"><a routerLink="user">用户管理</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

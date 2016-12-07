@@ -6,6 +6,4 @@ import { DesktopHeaderComponent } from './desktop-header.component';
     templateUrl: '../template/desktop.html',
     styleUrls: ['../assets/css/desktop.css']
 })
-export class DesktopComponent {
-
-}
+export class DesktopComponent { }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DesktopComponent } from '../component/desktop.component';
+import { DesktopIndexComponent } from '../component/desktop-index.component';
 import { AdminListComponent } from '../component/admin/admin-list.component';
 import { ApplicationListComponent } from '../component/application/application-list.component';
 import { ServiceListComponent } from '../component/service/service-list.component';
@@ -12,7 +13,7 @@ const desktopRoutes: Routes = [
         path: 'desktop',
         component: DesktopComponent,
         children: [
-            { path: '', redirectTo: 'application', pathMatch: 'full' },
+            { path: '', component: DesktopIndexComponent },
             { path: 'application', component: ApplicationListComponent },
             { path: 'service', component: ServiceListComponent },
             { path: 'operation', component: OperationListComponent },

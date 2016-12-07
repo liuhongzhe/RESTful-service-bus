@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { DesktopRoutingModule } from './desktop-routing.module';
+import { DesktopIndexComponent } from '../component/desktop-index.component';
 import { TextSearchComponent } from '../component/common/text-search.component';
 import { AdminListComponent } from '../component/admin/admin-list.component';
 import { AdminDetailComponent } from '../component/admin/admin-detail.component';
@@ -31,6 +32,7 @@ import { AppCache } from '../app.cache';
     declarations: [
         PaginationComponent,
         TextSearchComponent,
+        DesktopIndexComponent,
         AdminListComponent,
         AdminDetailComponent,
         ApplicationListComponent,
