@@ -29,8 +29,6 @@ export class ServiceDetailComponent extends DetailPageComponent<Service> {
         return new Promise<void>(resolve => {
             this.applicationService.queryByTextAndPagination().then(r => {
                 var applications = [];
-                var pleaseSelect: Application = { guid: '', name: '请选择', no: null };
-                applications.push(pleaseSelect);
                 r.rows.forEach((item, index, items) => {
                     applications.push(item);
                 });
