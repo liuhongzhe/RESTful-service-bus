@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppCache } from '../app.cache';
 import { LoginType } from '../entity/login-type';
 import { Admin } from '../model/admin';
@@ -12,7 +12,7 @@ import { Admin } from '../model/admin';
 export class DesktopHeaderComponent {
     login: Admin;
 
-    constructor(private route: ActivatedRoute, private router: Router, private appCache: AppCache) {
+    constructor(private router: Router, private appCache: AppCache) {
         switch (appCache.loginType) {
             case LoginType.User:
                 this.login = appCache.loginUser;
@@ -21,10 +21,6 @@ export class DesktopHeaderComponent {
                 this.login = appCache.loginAdmin;
                 break;
         }
-    }
-
-    protected showApplications() {
-        this.router.navigate(['applications'], { relativeTo: this.route });
     }
 
     protected logout() {
