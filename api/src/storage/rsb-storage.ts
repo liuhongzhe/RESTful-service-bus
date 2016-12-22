@@ -16,6 +16,9 @@ import { OperationAttribute } from './attribute/operation-attribute';
 import { UserModel } from './model/user-model';
 import { UserInstance } from './instance/user-instance';
 import { UserAttribute } from './attribute/user-attribute';
+import { AuthorizationModel } from './model/authorization-model';
+import { AuthorizationInstance } from './instance/authorization-instance';
+import { AuthorizationAttribute } from './attribute/authorization-attribute';
 
 export class RsbStorage {
     sequelize: Sequelize.Sequelize;
@@ -24,6 +27,7 @@ export class RsbStorage {
     serviceModel: ServiceModel;
     operationModel: OperationModel;
     userModel: UserModel;
+    authorizationModel: AuthorizationModel;
 
     constructor() {
         this.sequelize = new Sequelize(ApiConfig.dbName, ApiConfig.dbUsername, ApiConfig.dbPassword, {
@@ -32,8 +36,9 @@ export class RsbStorage {
             port: ApiConfig.dbPort
         });
         this.adminModel = this.sequelize.define<AdminInstance, AdminAttribute>('admin', {
-            guid: {
+            id: {
                 type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
                 primaryKey: true
             },
             username: {
@@ -58,8 +63,9 @@ export class RsbStorage {
             }
         });
         this.applicationModel = this.sequelize.define<ApplicationInstance, ApplicationAttribute>('application', {
-            guid: {
+            id: {
                 type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
                 primaryKey: true
             },
             no: {
@@ -75,11 +81,12 @@ export class RsbStorage {
             }
         });
         this.serviceModel = this.sequelize.define<ServiceInstance, ServiceAttribute>('service', {
-            guid: {
+            id: {
                 type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
                 primaryKey: true
             },
-            applicationGuid: {
+            applicationId: {
                 type: Sequelize.UUID,
                 allowNull: false
             },
@@ -97,11 +104,12 @@ export class RsbStorage {
         });
         this.serviceModel.belongsTo(this.applicationModel);
         this.operationModel = this.sequelize.define<OperationInstance, OperationAttribute>('operation', {
-            guid: {
+            id: {
                 type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
                 primaryKey: true
             },
-            serviceGuid: {
+            serviceId: {
                 type: Sequelize.UUID,
                 allowNull: false
             },
@@ -119,8 +127,9 @@ export class RsbStorage {
         });
         this.operationModel.belongsTo(this.serviceModel);
         this.userModel = this.sequelize.define<UserInstance, UserAttribute>('user', {
-            guid: {
+            id: {
                 type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
                 primaryKey: true
             },
             username: {
@@ -144,6 +153,29 @@ export class RsbStorage {
                 allowNull: false
             }
         });
+        this.authorizationModel = this.sequelize.define<AuthorizationInstance, AuthorizationAttribute>('authorization', {
+            id: {
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
+                primaryKey: true
+            },
+            userId: {
+                type: Sequelize.UUID,
+                allowNull: false
+            },
+            authorizationType: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            targetId: {
+                type: Sequelize.UUID,
+                allowNull: false
+            }
+        });
+        this.authorizationModel.belongsTo(this.userModel);
+        this.authorizationModel.belongsTo(this.applicationModel);
+        this.authorizationModel.belongsTo(this.serviceModel);
+        this.authorizationModel.belongsTo(this.operationModel);
     }
 
     init(force?: boolean): Promise<any> {

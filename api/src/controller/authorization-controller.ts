@@ -1,18 +1,20 @@
 import * as express from 'express';
 import * as Sequelize from 'sequelize';
 import { TController } from './controller';
-import { OperationModel } from '../storage/model/operation-model';
-import { OperationInstance } from '../storage/instance/operation-instance';
-import { OperationAttribute } from '../storage/attribute/operation-attribute';
+import { AuthorizationModel } from '../storage/model/authorization-model';
+import { AuthorizationInstance } from '../storage/instance/authorization-instance';
+import { AuthorizationAttribute } from '../storage/attribute/authorization-attribute';
 
-export class OperationController extends TController<OperationModel, OperationInstance, OperationAttribute> {
+export class AuthorizationController extends TController<AuthorizationModel, AuthorizationInstance, AuthorizationAttribute> {
     find(req: express.Request, res: express.Response) {
         let searchText = this.getRequestSearchText(req);
         let findOptions: Sequelize.FindOptions = {
-            include: [{
-                model: this.rsbStorage.serviceModel,
-                include: [this.rsbStorage.applicationModel]
-            }]
+            include: [
+                this.rsbStorage.userModel,
+                this.rsbStorage.applicationModel,
+                this.rsbStorage.serviceModel,
+                this.rsbStorage.operationModel
+            ]
         };
         findOptions = this.buildPaginationFindOptions(req, findOptions);
         if (searchText && searchText !== '') {

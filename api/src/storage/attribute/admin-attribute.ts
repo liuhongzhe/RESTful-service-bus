@@ -1,5 +1,6 @@
-export interface AdminAttribute {
-    guid: string;
+import { Attribute } from './attribute';
+
+export interface AdminAttribute extends Attribute {
     username: string;
     password: string;
     firstName: string;

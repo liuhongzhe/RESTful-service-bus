@@ -25,9 +25,9 @@ export class OperationDetailComponent extends DetailPageComponent<Operation> {
         super(operationService);
     }
 
-    protected beforeGetEntity(guid: string): Promise<void> {
+    protected beforeGetEntity(id: string): Promise<void> {
         return new Promise<void>(resolve => {
-            this.serviceService.queryByTextAndPagination().then(r => {
+            this.serviceService.find().then(r => {
                 var services = [];
                 r.rows.forEach((item, index, items) => {
                     services.push(item);

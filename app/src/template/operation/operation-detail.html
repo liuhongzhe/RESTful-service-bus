@@ -8,11 +8,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="serviceGuid">所属服务</label>
-                        <select class="form-control" required [(ngModel)]="entity.serviceGuid" name="serviceGuid" #serviceGuid="ngModel">
-                            <option *ngFor="let service of services" [value]="service.guid">{{service.name}}</option>
+                        <label for="serviceId">所属服务</label>
+                        <select class="form-control" required [(ngModel)]="entity.serviceId" name="serviceId" #serviceId="ngModel">
+                            <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
                         </select>
-                        <div [hidden]="serviceGuid.valid || serviceGuid.pristine" class="alert alert-danger">
+                        <div [hidden]="serviceId.valid || serviceId.pristine" class="alert alert-danger">
                             必填。
                         </div>
                     </div>

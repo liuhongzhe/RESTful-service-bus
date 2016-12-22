@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { ApiConfig } from './api.config';
+import { ApiCache } from './api.cache';
 import * as routerIndex from './router/router.index';
 import { RsbStorage } from './storage/rsb-storage';
 import { Controller } from './controller/controller';
@@ -12,15 +13,14 @@ console.info('Info: Express init ok.');
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: false }));
 console.info('Info: BodyParser init ok.');
-routerIndex.init(api);
-console.info('Info: Router init ok.');
 let rsbStorage = new RsbStorage();
 rsbStorage.init(init).then(r => {
     console.info('Info: Db init ok.');
-    Controller.rsbStorage = rsbStorage;
+    ApiCache.rsbStorage = rsbStorage;
+    routerIndex.init(api);
+    console.info('Info: Router init ok.');
     if (init) {
         rsbStorage.adminModel.create({
-            guid: uuid.v1(),
             username: 'admin',
             password: '123',
             firstName: 'Admin',

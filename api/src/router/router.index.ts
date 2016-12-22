@@ -14,10 +14,6 @@ export let init = function (api: express.Application) {
         res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         next();
     });
-    api.get('/:model/:pk', controller.queryByPk);
-    api.post('/:model', controller.add);
-    api.put('/:model/:pk', controller.update);
-    api.delete('/:model/:pk', controller.deleteByPk);
     new AdminRouter(api).config();
     new ApplicationRouter(api).config();
     new ServiceRouter(api).config();

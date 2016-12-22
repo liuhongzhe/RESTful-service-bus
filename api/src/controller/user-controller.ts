@@ -1,11 +1,47 @@
 import * as express from 'express';
-import { Controller } from './controller';
+import * as Sequelize from 'sequelize';
+import { TController } from './controller';
+import { UserModel } from '../storage/model/user-model';
+import { UserInstance } from '../storage/instance/user-instance';
+import { UserAttribute } from '../storage/attribute/user-attribute';
 
-export class UserController extends Controller {
+export class UserController extends TController<UserModel, UserInstance, UserAttribute> {
+    find(req: express.Request, res: express.Response) {
+        let searchText = this.getRequestSearchText(req);
+        let findOptions: Sequelize.FindOptions = {};
+        findOptions = this.buildPaginationFindOptions(req, findOptions);
+        if (searchText && searchText !== '') {
+            findOptions.where = {
+                '$or': [
+                    {
+                        username: {
+                            '$like': '%' + searchText + '%'
+                        }
+                    },
+                    {
+                        firstName: {
+                            '$like': '%' + searchText + '%'
+                        }
+                    },
+                    {
+                        lastName: {
+                            '$like': '%' + searchText + '%'
+                        }
+                    }
+                ]
+            };
+        }
+        this.model.findAndCountAll(findOptions).then(r => {
+            res.send(r);
+        }).catch(e => {
+            throw 'Query error. Error:' + e;
+        });
+    }
+
     login(req: express.Request, res: express.Response) {
-        var username: string = req.body.username;
-        var password: string = req.body.password;
-        Controller.rsbStorage.userModel.findOne({
+        let username: string = req.body.username;
+        let password: string = req.body.password;
+        this.model.findOne({
             where: {
                 username: username,
                 password: password
@@ -15,30 +51,6 @@ export class UserController extends Controller {
                 r.password = null;
             }
             res.send(r);
-        });
-    }
-
-    query(req: express.Request, res: express.Response) {
-        var text = req.param('text');
-        var where = {};
-        if (text && text !== '') {
-            where = {
-                '$or': [
-                    {
-                        username: {
-                            '$like': '%' + text + '%'
-                        }
-                    },
-                    {
-                        name: {
-                            '$like': '%' + text + '%'
-                        }
-                    }
-                ]
-            };
-        }
-        return super.queryByPagination(req, res, Controller.rsbStorage.userModel, {
-            where: where
         });
     }
 }

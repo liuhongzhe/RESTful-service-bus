@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "RESTful-service-bus app.",
   "scripts": {
+    "start": "npm run lite",
+    "lite": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,25 +18,25 @@
   },
   "homepage": "https://github.com/liuhongzhe/RESTful-service-bus#readme",
   "dependencies": {
-    "@angular/common": "^2.2.3",
-    "@angular/compiler": "^2.2.3",
-    "@angular/core": "^2.2.3",
-    "@angular/forms": "^2.2.3",
-    "@angular/http": "^2.2.3",
-    "@angular/platform-browser": "^2.2.3",
-    "@angular/platform-browser-dynamic": "^2.2.3",
-    "@angular/router": "^3.2.3",
-    "@angular/upgrade": "^2.2.3",
-    "angular-in-memory-web-api": "^0.1.16",
+    "@angular/common": "^2.4.1",
+    "@angular/compiler": "^2.4.1",
+    "@angular/core": "^2.4.1",
+    "@angular/forms": "^2.4.1",
+    "@angular/http": "^2.4.1",
+    "@angular/platform-browser": "^2.4.1",
+    "@angular/platform-browser-dynamic": "^2.4.1",
+    "@angular/router": "^3.4.1",
+    "@angular/upgrade": "^2.4.1",
+    "angular-in-memory-web-api": "^0.2.2",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "jquery": "^3.1.1",
     "ng2-bootstrap": "^1.1.16",
     "node-uuid": "^1.4.7",
-    "reflect-metadata": "^0.1.8",
-    "rxjs": "5.0.0-beta.12",
+    "reflect-metadata": "^0.1.9",
+    "rxjs": "^5.0.1",
     "systemjs": "^0.19.41",
-    "zone.js": "^0.6.26"
+    "zone.js": "^0.7.4"
   },
   "devDependencies": {
     "@types/core-js": "^0.9.34",

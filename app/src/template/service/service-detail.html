@@ -8,11 +8,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="applicationGuid">所属应用</label>
-                        <select class="form-control" required [(ngModel)]="entity.applicationGuid" name="applicationGuid" #applicationGuid="ngModel">
-                            <option *ngFor="let application of applications" [value]="application.guid">{{application.name}}</option>
+                        <label for="applicationId">所属应用</label>
+                        <select class="form-control" required [(ngModel)]="entity.applicationId" name="applicationId" #applicationId="ngModel">
+                            <option *ngFor="let application of applications" [value]="application.id">{{application.name}}</option>
                         </select>
-                        <div [hidden]="applicationGuid.valid || applicationGuid.pristine" class="alert alert-danger">
+                        <div [hidden]="applicationId.valid || applicationId.pristine" class="alert alert-danger">
                             必填。
                         </div>
                     </div>

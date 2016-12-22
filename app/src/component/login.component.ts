@@ -19,6 +19,7 @@ export class LoginComponent {
     password: string;
     loading: boolean;
     loginFaild: boolean;
+
     constructor(private router: Router, private activatedRoute: ActivatedRoute, private adminService: AdminService, private userService: UserService, private appCache: AppCache) {
         activatedRoute.params.subscribe(params => {
             var loginType = params['loginType'];
@@ -27,11 +28,13 @@ export class LoginComponent {
             }
         });
     }
+
     passwordKeyUp(e) {
         if (e.which === 13) {
             this.login();
         }
     }
+
     login() {
         this.loginFaild = false;
         this.loading = true;

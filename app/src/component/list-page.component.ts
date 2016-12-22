@@ -24,10 +24,10 @@ export abstract class ListPageComponent<TEntity extends Model> implements OnInit
         if (pageIndex !== null) {
             pagination.index = pageIndex;
         }
-        this.modelService.queryByTextAndPagination(this.searchText, {
+        this.modelService.find({
             index: this.pageIndex,
             size: this.pageSize
-        }).then(result => {
+        }, this.searchText).then(result => {
             this.total = result.total;
             this.entities = result.rows;
         });
@@ -42,9 +42,9 @@ export abstract class ListPageComponent<TEntity extends Model> implements OnInit
         this.query();
     }
 
-    protected remove(guid) {
+    protected remove(id) {
         if (confirm("确认删除？") === true) {
-            this.modelService.deleteByPk(guid).then(result => {
+            this.modelService.destroyById(id).then(() => {
                 this.query();
             });
         }

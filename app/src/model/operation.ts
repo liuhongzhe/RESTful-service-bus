@@ -1,7 +1,9 @@
 import { Model } from './model';
+import { Service } from './service';
 
 export interface Operation extends Model {
-    serviceGuid: string;
+    serviceId: string;
+    service: Service;
     no: string;
     name: string;
     description?: string;

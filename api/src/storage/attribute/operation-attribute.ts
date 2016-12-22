@@ -1,8 +1,8 @@
+import { Attribute } from './attribute';
 import { ServiceAttribute } from './service-attribute';
 
-export interface OperationAttribute {
-    guid: string;
-    serviceGuid: string;
+export interface OperationAttribute extends Attribute {
+    serviceId: string;
     service: ServiceAttribute;
     no: string;
     name: string;

@@ -1,7 +1,6 @@
-import { Output, OnInit, EventEmitter } from '@angular/core';
+import { OnInit, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
-import * as uuid from 'node-uuid';
 import { Model } from '../model/model';
 import { TService } from '../service/service';
 
@@ -12,7 +11,7 @@ export abstract class DetailPageComponent<TEntity extends Model> implements OnIn
     private detailForm: NgForm;
     private detailSaveCompleted: EventEmitter<TEntity>;
 
-    protected beforeGetEntity(guid: string): Promise<void> {
+    protected beforeGetEntity(id: string): Promise<void> {
         return new Promise<void>(r => {
             r();
         });
@@ -30,16 +29,16 @@ export abstract class DetailPageComponent<TEntity extends Model> implements OnIn
         this.detailSaveCompleted = this.getSaveCompleted();
     }
 
-    protected show(guid: string) {
+    protected show(id: string) {
         this.detailModal.show();
-        this.beforeGetEntity(guid).then(() => {
-            if (guid === null) {
+        this.beforeGetEntity(id).then(() => {
+            if (id === null) {
                 this.isAdd = true;
                 this.entity = Object.create<TEntity>(null);
             }
             else {
                 this.isAdd = false;
-                this.service.queryByPk(guid).then(r => {
+                this.service.findById(id).then(r => {
                     this.entity = r;
                 });
             }
@@ -53,8 +52,7 @@ export abstract class DetailPageComponent<TEntity extends Model> implements OnIn
 
     protected onSubmit() {
         if (this.isAdd === true) {
-            this.entity.guid = uuid.v1();
-            this.service.add(this.entity).then(result => {
+            this.service.create(this.entity).then(result => {
                 this.close();
                 this.detailSaveCompleted.emit(this.entity);
             });

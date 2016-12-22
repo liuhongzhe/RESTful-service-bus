@@ -1,28 +1,35 @@
 import * as express from 'express';
-import { Controller } from './controller';
+import * as Sequelize from 'sequelize';
+import { TController } from './controller';
+import { ApplicationModel } from '../storage/model/application-model';
+import { ApplicationInstance } from '../storage/instance/application-instance';
+import { ApplicationAttribute } from '../storage/attribute/application-attribute';
 
-export class ApplicationController extends Controller {
-    query(req: express.Request, res: express.Response) {
-        var text = req.param('text');
-        var where = {};
-        if (text && text !== '') {
-            where = {
+export class ApplicationController extends TController<ApplicationModel, ApplicationInstance, ApplicationAttribute> {
+    find(req: express.Request, res: express.Response) {
+        let searchText = this.getRequestSearchText(req);
+        let findOptions: Sequelize.FindOptions = {};
+        findOptions = this.buildPaginationFindOptions(req, findOptions);
+        if (searchText && searchText !== '') {
+            findOptions.where = {
                 '$or': [
                     {
                         name: {
-                            '$like': '%' + text + '%'
+                            '$like': '%' + searchText + '%'
                         }
                     },
                     {
                         no: {
-                            '$like': '%' + text + '%'
+                            '$like': '%' + searchText + '%'
                         }
                     }
                 ]
             };
         }
-        return super.queryByPagination(req, res, Controller.rsbStorage.applicationModel, {
-            where: where
+        this.model.findAndCountAll(findOptions).then(r => {
+            res.send(r);
+        }).catch(e => {
+            throw 'Query error. Error:' + e;
         });
     }
 }

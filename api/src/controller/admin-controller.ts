@@ -1,11 +1,47 @@
 import * as express from 'express';
-import { Controller } from './controller';
+import * as Sequelize from 'sequelize';
+import { TController } from './controller';
+import { AdminModel } from '../storage/model/admin-model';
+import { AdminInstance } from '../storage/instance/admin-instance';
+import { AdminAttribute } from '../storage/attribute/admin-attribute';
 
-export class AdminController extends Controller {
+export class AdminController extends TController<AdminModel, AdminInstance, AdminAttribute> {
+    find(req: express.Request, res: express.Response) {
+        let searchText = this.getRequestSearchText(req);
+        let findOptions: Sequelize.FindOptions = {};
+        findOptions = this.buildPaginationFindOptions(req, findOptions);
+        if (searchText && searchText !== '') {
+            findOptions.where = {
+                '$or': [
+                    {
+                        username: {
+                            '$like': '%' + searchText + '%'
+                        }
+                    },
+                    {
+                        firstName: {
+                            '$like': '%' + searchText + '%'
+                        }
+                    },
+                    {
+                        lastName: {
+                            '$like': '%' + searchText + '%'
+                        }
+                    }
+                ]
+            };
+        }
+        this.model.findAndCountAll(findOptions).then(r => {
+            res.send(r);
+        }).catch(e => {
+            throw 'Query error. Error:' + e;
+        });
+    }
+
     login(req: express.Request, res: express.Response) {
-        var username: string = req.body.username;
-        var password: string = req.body.password;
-        Controller.rsbStorage.adminModel.findOne({
+        let username: string = req.body.username;
+        let password: string = req.body.password;
+        this.model.findOne({
             where: {
                 username: username,
                 password: password
@@ -15,30 +51,6 @@ export class AdminController extends Controller {
                 r.password = null;
             }
             res.send(r);
-        });
-    }
-
-    query(req: express.Request, res: express.Response) {
-        var text = req.param('text');
-        var where = {};
-        if (text && text !== '') {
-            where = {
-                '$or': [
-                    {
-                        username: {
-                            '$like': '%' + text + '%'
-                        }
-                    },
-                    {
-                        name: {
-                            '$like': '%' + text + '%'
-                        }
-                    }
-                ]
-            };
-        }
-        return super.queryByPagination(req, res, Controller.rsbStorage.adminModel, {
-            where: where
         });
     }
 }

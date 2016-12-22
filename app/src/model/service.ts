@@ -1,7 +1,9 @@
 import { Model } from './model';
+import { Application } from './application';
 
 export interface Service extends Model {
-    applicationGuid: string;
+    applicationId: string;
+    application: Application;
     no: string;
     name: string;
     description?: string;
