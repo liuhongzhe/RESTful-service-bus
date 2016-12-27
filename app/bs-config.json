@@ -5,5 +5,7 @@
     ],
     "server": {
         "baseDir": "./build"
-    }
+    },
+    "open": false,
+    "logLevel": "silent"
 }
